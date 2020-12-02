@@ -4,11 +4,14 @@ export default function blogId({blog}) {
   return (
     <Layout title="BLOG">
       <p>このページはBLOGです。</p>
-      <div>
-        <h2>{blog.title}</h2>
-        <p>{blog.publishedAt}</p>
-        <p>{blog.introduction}</p>
-      </div>
+      {/* MEMO 存在チェック入れないとbuildが成功しない */}
+      { blog && (
+        <div>
+          <h2>{blog.title}</h2>
+          <p>{blog.publishedAt}</p>
+          <p>{blog.introduction}</p>
+        </div>
+      )}
     </Layout>
   );
 }
