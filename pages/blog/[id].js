@@ -26,7 +26,7 @@ export const getStaticPaths = async () => {
   const paths = data.contents.map(content => `/blog/${content.id}`);
 
   // fallbackを false にすると事前に生成しておいたPathしかアクセスできなくなる
-  return {paths, fallback: true};
+  return {paths, fallback: false};
 }
 
 export const getStaticProps = async context => {
