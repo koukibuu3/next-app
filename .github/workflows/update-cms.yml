@@ -38,6 +38,7 @@ jobs:
       env:
         CMS_API_URL: ${{ secrets.CMS_API_URL }}
         CMS_API_KEY: ${{ secrets.CMS_API_KEY }}
+        BLOG_ID: ${{ github.event.client_payload.id }}
 
     # 静的なHTMLとしてNext.jsアプリを生成する
     # プロジェクトルート直下にoutディレクトリができる

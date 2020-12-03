@@ -17,13 +17,20 @@ export default function blogId({blog}) {
 }
 
 export const getStaticPaths = async () => {
-  const key = {
-    headers: {'X-API-KEY': process.env.CMS_API_KEY},
-  };
-  const data = await fetch(process.env.CMS_API_URL, key)
-    .then(res => res.json())
-    .catch(() => null);
-  const paths = data.contents.map(content => `/blog/${content.id}`);
+  let paths = [];
+
+  if (process.env.BLOG_ID) {
+    // MEMO 環境変数に値がセットされていた場合、その記事のみをビルド対象記事にする
+    paths = [`/blog/${process.env.BLOG_ID}`];
+  } else {
+    const key = {
+      headers: {'X-API-KEY': process.env.CMS_API_KEY},
+    };
+    const data = await fetch(process.env.CMS_API_URL, key)
+      .then(res => res.json())
+      .catch(() => null);
+    paths = data.contents.map(content => `/blog/${content.id}`);
+  }
 
   // fallbackを false にすると事前に生成しておいたPathしかアクセスできなくなる
   return {paths, fallback: false};
