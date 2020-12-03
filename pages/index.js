@@ -23,7 +23,7 @@ export default function Home({blogs}) {
 
 export const getStaticProps = async () => {
   const key = {
-    headers: {'X-API-KEY': process.env.API_KEY},
+    headers: {'X-API-KEY': process.env.CMS_API_KEY},
   };
   const data = await fetch(process.env.CMS_API_URL, key)
     .then(res => res.json())

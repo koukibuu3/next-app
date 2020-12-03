@@ -18,7 +18,7 @@ export default function blogId({blog}) {
 
 export const getStaticPaths = async () => {
   const key = {
-    headers: {'X-API-KEY': process.env.API_KEY},
+    headers: {'X-API-KEY': process.env.CMS_API_KEY},
   };
   const data = await fetch(process.env.CMS_API_URL, key)
     .then(res => res.json())
@@ -32,7 +32,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async context => {
   const id = context.params.id;
   const key = {
-    headers: {'X-API-KEY': process.env.API_KEY},
+    headers: {'X-API-KEY': process.env.CMS_API_KEY},
   };
   const data = await fetch(`${process.env.CMS_API_URL}/${id}`, key)
     .then(res => res.json())
