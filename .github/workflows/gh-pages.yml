@@ -46,16 +46,13 @@ jobs:
     - name: export
       run: npm run export
 
-    # しかしGitHub Pagesの仕様として_から始まるディレクトリが見えず404となる
-    # つまりHTMLからJSを読み込めない
-    # これを回避するために.nojekyllファイルをoutディレクトリに作る
-    - name: add nojekyll
-      run: touch ./out/.nojekyll
-
-    # gh-pagesブランチにoutディレクトリの中身をプッシュする
-    # gh-pagesブランチは自動的に作成される
-    - name: deploy
-      uses: peaceiris/actions-gh-pages@v3
+    # AWS
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
+    - name: S3 sync
+      working-directory: out
+      run: aws s3 sync . s3://${{ secrets.AWS_PROJECT_NAME }} --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --exclude "README.md"
